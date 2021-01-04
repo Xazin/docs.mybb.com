@@ -85,6 +85,95 @@ function callback_function_action_handler(&$actions) {
 }
 ```
 
+You can decide on an id that fits your usecase scenario, it is also good practice to have the original module included in your link. Such as the above case where the link attributes include _module_ and the value is _forum-customadmin-page_ where forum is the original module codename. The _id_ you give your admincp page must be the same as the _key_ you provide to the _$actions_ variable.
+
 Now we can create our custom admin page file inside the forum module folder, located at */admin/modules/forum/*. Simply create a file with the same name as supplied in the array with key 'file'. In this case the filename will be *customadmin-page.php*.
 
 ### Step 3. Custom Admin Page File
+Our custom AdminCP page can now be constructed. The first thing we can do is add the default tabs to the admincp page.
+
+The dummy page will include 2 default tabs, which are tabs always shown no matter what action is being done. The top of the php file including the 2 tabs looks like this:
+```
+<?php
+
+if(!defined('IN_MYBB'))
+{
+	die('You are not allowed direct access to this file.');
+}
+
+/* Load Language */
+$lang->load('customadmin-page');
+
+$sub_tabs['customadmin_default'] = array(
+	'title' => $lang->customadmin_default,
+	'link' => 'index.php?module=forum-customadmin-page',
+	'description' => $lang->customadmin_default_desc
+);
+
+$sub_tabs['customadmin_new'] = array(
+	'title' => $lang->customadmin_new,
+	'link' => 'index.php?module=forum-customadmin-page&action=new',
+	'description' => $lang->customadmin_new_desc
+);
+
+/* Output header */
+$page->output_header($lang->customadmin_title);
+```
+
+Whether you use a language file or not, is an individual decision.
+
+Now is a good time to implement the logic that decides what content to output. For this example the _action_ parameter will be used to control the output, and a simple _if_ structure. We can use the included admin classes _form_, _page_ and _table_ to build the admin page.
+
+The following code will output _tabs_ and _footer_ but no page content. The usage of the aforementioned admin classes are explained later.
+```
+if ($mybb->input['action'] == 'new')
+{
+	$page->output_nav_tabs($sub_tabs, 'customadmin_new');
+	
+	/** Page content here *//
+} else 
+{
+	$page->output_nav_tabs($sub_tabs, 'customadmin_default');
+	
+	/** Page content here *//
+}
+
+$page->output_footer($lang->customadmin_title_acronym);
+```
+
+### Page Content
+The following will not discuss how to output content in AdminCP other than by using classes included in **MyBB** for building AdminCP pages.
+
+#### Outputting Tables
+In the _table with data_ example any iteration of data can substitue the iteration of users.
+
+##### Simple Table
+In this example we output a table that is not built iterably.
+
+First we create a new instance (object) of the _Table_ class and we construct the table head.
+```
+	$table = new Table;
+	$table->construct_header("Statistic Name", ['width' => '70%']);
+	$table->construct_header("Amount", ['width' => '30%', 'class' => 'align_center']);
+```
+
+The _construct_header()_ function takes 2 parameters, the title of the head and an array. The array is optional but can be used to set _class_, _style_, _width_ and _colspan_ attributes of the resulting html.
+
+##### Table with data
+
+##### Pagination
+
+#### Outputting & Handling Forms
+
+#### Page Functionality
+##### Output Header
+
+##### Output Footer
+
+##### Add Item to Breadcrumb
+
+##### Output Navigation Tabs
+
+##### Codebuttons Editor in AdminCP
+
+##### Popup
