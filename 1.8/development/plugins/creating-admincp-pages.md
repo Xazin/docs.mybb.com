@@ -152,9 +152,9 @@ In this example we output a table that is not built iterably.
 
 First we create a new instance (object) of the _Table_ class and we construct the table head.
 ```
-	$table = new Table;
-	$table->construct_header('Statistic Name', ['width' => '70%']);
-	$table->construct_header('Amount', ['width' => '30%', 'class' => 'align_center']);
+$table = new Table;
+$table->construct_header('Statistic Name', ['width' => '70%']);
+$table->construct_header('Amount', ['width' => '30%', 'class' => 'align_center']);
 ```
 
 The _construct_header()_ function takes 2 parameters, the title of the head and an array. The array is optional but can be used to set _class_, _style_, _width_ and _colspan_ attributes of the resulting html.
@@ -162,8 +162,8 @@ The _construct_header()_ function takes 2 parameters, the title of the head and 
 Assuming we already have the data we need stored in an object or array, we can then proceed to build the cells of the next row. This is done using the construct_cell() function of the _Table_ class. Using our instance of the class, we can build cells.
 
 ```
-	$table->construct_cell('Members');
-	$table->construct_cell($statistic['members'], ['class' => 'align_center']);
+$table->construct_cell('Members');
+$table->construct_cell($statistic['members'], ['class' => 'align_center']);
 ```
 
 The construct_cell() function takes two parameters, the first one is the data of the cell, and the second one is an optional array. The optional array can be used to set _class_, _style_, _id_, _colspan_, _rowspan_, and _width_ attributes of your cell.
@@ -171,7 +171,7 @@ The construct_cell() function takes two parameters, the first one is the data of
 After constructing the necessary cells for one row, the construct_row() function is then used to build the cells into a row and appends it to the table. This function also sets the cells of the table to an empty array once finished, such that the cells can be populated again for the next row.
 
 ```
-	$table->construct_row();
+$table->construct_row();
 ```
 
 The construct_row() function takes an optional array, the array can be used to set _id_ and _class_ attributes of the row.
@@ -182,14 +182,14 @@ The output() function takes 4 optional parameters which are _heading_, _border_,
 
 Basic usage
 ```
-	$table->output('Statistics');
+$table->output('Statistics');
 ```
 
 If you have a need to set the id of the table, you will have to use the construct_html() function, which takes 4 optional parameters where the first three are similar to the output() function. The parameters are _heading_, _border_, _class_, and _table id_. The difference from output() is that _class_ is now set to null, and that construct_html() allows to set a custom id. The construct_html() function returns the resulting html.
 
 Basic usage
 ```
-	echo $table->construct_html('Statistics', 1, 'general', 'statistics_table');
+echo $table->construct_html('Statistics', 1, 'general', 'statistics_table');
 ```
 
 ##### Table with data
@@ -198,37 +198,37 @@ Most tables are built iterably, as they often contain variable data. In this sho
 Whether one starts by constructing headers or fetching data from database, the steps to constructing a table should always be followed. Construct the header, the cells for each row, the row and then the table itself. The part of a table that is usually iterable is the table rows. We use the same example from [Simple Table](creating-admincp-pages.md#simple-table) where the table contains 2 columns.
 
 ```
-	$table = new Table;
-	$table->construct_header('Statistic Name', ['width' => '70%']);
-	$table->construct_header('Amount', ['width' => '30%', 'class' => 'align_center']);
+$table = new Table;
+$table->construct_header('Statistic Name', ['width' => '70%']);
+$table->construct_header('Amount', ['width' => '30%', 'class' => 'align_center']);
 ```
 
 We then fetch our data from the database.
 
 ```
-	$query = $db->simple_select('statistics', '*');
+$query = $db->simple_select('statistics', '*');
 ```
 
 Then for each row from the database, a table row can be built simply by iterating the result from the query in a while loop.
 
 ```
-	while ($row = $db->fetch_array($query))
-	{
-		$table->construct_cell($row['name']);
-		$table->construct_cell($row['amount']);
+while ($row = $db->fetch_array($query))
+{
+	$table->construct_cell($row['name']);
+	$table->construct_cell($row['amount']);
 
-		$table->construct_row();
-	}
+	$table->construct_row();
+}
 ```
 
 In case there is no rows in result of the query, the function num_rows() can be used to make a check. This is done after the while loop to make sure that any rows that should have been there is not there.
 
 ```
-	if ($table->num_rows() == 0)
-	{
-		$table->construct_cell('No results', ['colspan' => 2, 'class' => 'align_center']);
-		$table->construct_row();
-	}
+if ($table->num_rows() == 0)
+{
+	$table->construct_cell('No results', ['colspan' => 2, 'class' => 'align_center']);
+	$table->construct_row();
+}
 ```
 
 This will ensure that once the table is finally output there will at least be some visual response for the user.
@@ -238,8 +238,8 @@ Pagination is often used when tables contain many rows. Using the function multi
 The first step in building the pagination functionality is to find out how many rows there currently is in our data set. Assuming the data is in a database table, a query can be built to find the amount of rows.
 
 ```
-	$query = $db->simple_select('statistics', 'count(ID) as total');
-	$total = $db-fetch_field($query, 'total');
+$query = $db->simple_select('statistics', 'count(ID) as total');
+$total = $db-fetch_field($query, 'total');
 ```
 
 To decide how many pages to have, there must be a decision on have many rows per page. If this is for a plugin and to make readability easy for the board administrator, it could be an option inside your plugin settings. For most usecases a fixed number will do fine, which is what will be used here.
@@ -247,26 +247,26 @@ To decide how many pages to have, there must be a decision on have many rows per
 We assume that the _total_ variable currently holds the number 27, such  that the logic can be shown easilier throughout the example. We initialize a variable that will decide how many rows that can be per page. 
 
 ```
-	$perpage = 10;
+$perpage = 10;
 ```
 
 To find out how many pages there are, divice the _total_ variable with the _perpage_ variable and round the result up. This can be done using the ceil() function in php.
 
 ```
-	$pages = ceil($total / $perpage);
+$pages = ceil($total / $perpage);
 ```
 
 In case _total_ is 27 and _perpage_ is 10, the result will be that _pages_ is 3. To decide which page is currently accessed a the get input _page_ is used. If the input is not set the page should default to 1.
 
 ```
-	$_page = isset($mybb->input['page']) ? $mybb->get_input('page', MyBB::INPUT_INT) : 1;
-	$_page = $_page < 1 ? 1 : $_page;
+$_page = isset($mybb->input['page']) ? $mybb->get_input('page', MyBB::INPUT_INT) : 1;
+$_page = $_page < 1 ? 1 : $_page;
 ```
 
 By using the ternary operator two checks are made. The last thing needed to build the pagination is the url. The url should not include the _page_ get input.
 
 ```
-	$url = $mybb->settings['bburl'].'/admin/index.php?module=forum-customadmin-page&action=statistics';
+$url = $mybb->settings['bburl'].'/admin/index.php?module=forum-customadmin-page&action=statistics';
 ```
 
 In the above example the get input _action_ is populated, this is done to simply illustrate that pagination needs to know the exact routing, as it is only able to take care of the parameters it is given.
@@ -274,25 +274,25 @@ In the above example the get input _action_ is populated, this is done to simply
 With everything ready, the multipage() function can be used to build the html. It takes four parameters, the total amount of items, the amount per page, the current page, and the url. The result will have to be manually echo'ed, and can be echo'ed before and after the table, to suit any preference.
 
 ```
-	$pagination = multipage($total, $perpage, $_page, $url);
-	echo $pagination;
+$pagination = multipage($total, $perpage, $_page, $url);
+echo $pagination;
 ```
 
 The last step is fetching the right entries from the database. To do this more easily a new variable is introduced, which will be the offset of the database. The offset is calculated by taking the current page and subtracting 1 from it, then multiplying it with the amount of items per page.
 
 ```
-	$offset = ($_page - 1) * $perpage;
+$offset = ($_page - 1) * $perpage;
 ```
 
 A query can then be built using the _offset_ and _perpage_ variables to filter the entries needed. 
 
 ```
-	$query = $db->write_query('SELECT * FROM '.TABLE_PREFIX.'statistics ORDER BY id ASC LIMIT '.$offset.', '.$perpage);
+$query = $db->write_query('SELECT * FROM '.TABLE_PREFIX.'statistics ORDER BY id ASC LIMIT '.$offset.', '.$perpage);
 ```
 
 The resulting entries can then be iterated using a standard while loop.
 
-If there is only 1 page, or rather if the _total_ variable is equal to or less than the _perpage_ variable, the multipage() function will return null. This ensure pagination will only be shown when usable.
+If there is only 1 page, or rather if the _total_ variable is equal to or less than the _perpage_ variable, the multipage() function will return null. This ensures pagination will only be shown when usable.
 #### Outputting & Handling Forms
 
 #### Page Functionality
