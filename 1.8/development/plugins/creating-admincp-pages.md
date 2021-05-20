@@ -141,12 +141,12 @@ if ($mybb->input['action'] == 'new')
 $page->output_footer($lang->customadmin_title_acronym);
 ```
 
-### Page Content
+## Page Content
 The following will not discuss how to output content in AdminCP other than using classes included in **MyBB** to build AdminCP pages.
 
-#### Outputting Tables
+### Outputting Tables
 
-##### Simple Table
+#### Simple Table
 First, we create a new instance (object) of the _Table_ class, and we construct the table head.
 
 ```
@@ -188,7 +188,7 @@ Basic usage
 echo $table->construct_html('Statistics', 1, 'general', 'statistics_table');
 ```
 
-##### Table with data
+#### Table with data
 There will be references to the functions used in this short sub-chapter [Simple Table](creating-admincp-pages#simple-table). 
 
 We use the same example from [Simple Table](creating-admincp-pages#simple-table), where the table contains two columns.
@@ -228,7 +228,8 @@ if ($table->num_rows() == 0)
 ```
 
 Doing the check from the above example will ensure that the user always has some form of visual response.
-##### Pagination
+
+#### Pagination
 When tables contain many rows, pagination helps with readability. Using the function multipage() that exists inside _inc/functions.php_, pagination can easily be built when iterating tables.
 
 The first step in building the pagination functionality is to find out how many rows there currently are in the relevant dataset. Assuming the data is in a database table, the number of rows is retrieved using a query.
@@ -290,18 +291,18 @@ $query = $db->write_query('SELECT * FROM '.TABLE_PREFIX.'statistics ORDER BY id 
 You can iterate the resulting entries using a standard while loop.
 
 Suppose there is only 1 page, or rather if the _total_ variable is equal to or less than the _perpage_ variable, the multipage() function will return null, which ensures pagination is in use only when relevant.
-#### Outputting & Handling Forms
 
-#### Page Functionality
-##### Output Header
+### Outputting & Handling Forms
 
-##### Output Footer
+### Page Functionality
+#### Output Header
 
-##### Add Item to Breadcrumb
+#### Output Footer
 
-##### Output Navigation Tabs
+#### Add Item to Breadcrumb
 
-##### Codebuttons Editor in AdminCP
+#### Output Navigation Tabs
 
+#### Codebuttons Editor in AdminCP
 
-##### Popup
+#### Popup
