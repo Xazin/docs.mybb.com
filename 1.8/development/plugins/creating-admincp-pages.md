@@ -7,10 +7,10 @@ categories: [plugins]
 ## Create a new AdminCP Page
 
 ### Why use AdminCP Pages
-When you want to offer administrative options beyond [Plugin Settings](basics.md/#plugin-settings) for admins of a board, similar to plugins such as 'BAM Announcement Manager' or 'My Advertisements', it can often be a good idea to consider adding custom admincp pages.
+When you want to offer administrative options beyond [Plugin Settings](basics.md/#plugin-settings) for admins of a board, similar to plugins such as 'BAM Announcement Manager' or 'My Advertisements', it can often be a good idea to consider adding custom AdminCP pages.
 
 ### Step 1. Deciding on a Module
-Before adding a custom admincp page, look at the type of options you want to offer and where they belong in the AdminCP. In example if your plugin offers custom announcements, there is a chance the page fits better under 'Forums & Posts' more so than 'Tools & Maintenance'.
+Before adding a custom AdminCP page, look at the type of options you want to offer and where they belong in the AdminCP. In example if your plugin offers custom announcements, there is a chance the page fits better under 'Forums & Posts' more so than 'Tools & Maintenance'.
 
 There are 5 modules to choose from and they are:
 #### Configuration
