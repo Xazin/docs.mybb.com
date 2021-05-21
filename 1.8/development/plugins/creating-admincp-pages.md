@@ -77,11 +77,11 @@ Next up we need to create the callback functions that need to run. The two hooks
 The process is pretty straightforward, here are two example codes of the functions called for the forum module:
 ```
 function callback_function(&$sub_menu) {
-    $sub_menu[] = ['id' => 'customadmin-page', 'title' => 'Custom Admin Page', 'link' => 'index.php?module=forum-customadmin-page'];
+    $sub_menu[] = array('id' => 'customadmin-page', 'title' => 'Custom Admin Page', 'link' => 'index.php?module=forum-customadmin-page');
 }
 
 function callback_function_action_handler(&$actions) {
-    $actions['customadmin-page'] = ['active' => 'customadmin-page', 'file' => 'customadmin-page.php'];
+    $actions['customadmin-page'] = array('active' => 'customadmin-page', 'file' => 'customadmin-page.php');
 }
 ```
 
@@ -151,8 +151,8 @@ First, we create a new instance (object) of the _Table_ class, and we construct 
 
 ```
 $table = new Table;
-$table->construct_header('Statistic Name', ['width' => '70%']);
-$table->construct_header('Amount', ['width' => '30%', 'class' => 'align_center']);
+$table->construct_header('Statistic Name', array('width' => '70%'));
+$table->construct_header('Amount', array('width' => '30%', 'class' => 'align_center'));
 ```
 
 The _construct_header()_ function takes two parameters, the title of the head and an array. The array is optional but can be used to set _class_, _style_, _width_ and _colspan_ attributes of the resulting HTML.
@@ -161,7 +161,7 @@ Assuming we already have the data we need in an object or array, we can build th
 
 ```
 $table->construct_cell('Members');
-$table->construct_cell($statistic['members'], ['class' => 'align_center']);
+$table->construct_cell($statistic['members'], array('class' => 'align_center'));
 ```
 
 The construct_cell() function takes two parameters, the first one is the cell's data, and the second one is an optional array. The optional array can set _class_, _style_, _id_, _colspan_, _rowspan_, and _width_ attributes of the table cell.
@@ -195,8 +195,8 @@ We use the same example from [Simple Table](creating-admincp-pages#simple-table)
 
 ```
 $table = new Table;
-$table->construct_header('Statistic Name', ['width' => '70%']);
-$table->construct_header('Amount', ['width' => '30%', 'class' => 'align_center']);
+$table->construct_header('Statistic Name', array('width' => '70%'));
+$table->construct_header('Amount', array('width' => '30%', 'class' => 'align_center'));
 ```
 
 We then fetch our data from the database.
@@ -222,7 +222,7 @@ In case there are no rows in the result of the query, the function num_rows() ca
 ```
 if ($table->num_rows() == 0)
 {
-	$table->construct_cell('No results', ['colspan' => 2, 'class' => 'align_center']);
+	$table->construct_cell('No results', array('colspan' => 2, 'class' => 'align_center'));
 	$table->construct_row();
 }
 ```
